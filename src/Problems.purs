@@ -1,6 +1,7 @@
 module Problems where
 
 import Prelude
+import Control.MonadZero (guard)
 import Data.BigInt (BigInt)
 import Data.BigInt as BigInt
 import Data.Foldable (sum, maximum)
@@ -28,10 +29,14 @@ answer 2 = Just $ BigInt.toString ans
 answer 3 = Just "3"
 
 answer 4 = Just $ show $ fromMaybe 0 ans
-  where ans = (maximum <<< (filter (\n -> (reverse $ toStringAs decimal n) == toStringAs decimal n))) products
-        products = do
+  where ans = maximum $
+        do
           a <- 1 .. 999
           b <- 1 .. a
-          pure $ a * b
+          let
+            p = (a * b)
+            s = toStringAs decimal p
+          guard $ reverse s == s
+          pure p
 
 answer _ = Nothing
