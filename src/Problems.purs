@@ -1,4 +1,4 @@
-module Problems where
+module Problems (answer) where
 
 import Prelude
 import Control.MonadZero (guard)
@@ -45,5 +45,11 @@ answer 4 = Just $ show $ fromMaybe 0 ans
 
 -- What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 answer 5 = Just $ show $ foldr lcm 1 $ 1 .. 20
+
+-- Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+answer 6 = Just $ show $ (sum2 * sum2) - sum1
+  where sum1 = foldr (+) 0 (map (\x -> x * x) $ 1 .. 100)
+        sum2 = foldr (+) 0 $ 1 .. 100
+
 
 answer _ = Nothing
